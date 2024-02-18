@@ -27,16 +27,16 @@ theme_update(
 
 <br>
 
-# Health expenditure
+## Health expenditure
 
 Data downloaded from [OECD Data Explorer](https://data-explorer.oecd.org/)
 
 Read .csv and write to .parquet 
 
 ```{r}
-# # DATAFLOW  OECD.ELS.HD:DSD_SHA@DF_SHA(1.0)
-# # Health expenditure and financing
-# df.health_exp <- read_csv("_datasets/OECD.ELS.HD,DSD_SHA@DF_SHA,1.0+all.csv",name_repair="universal")
+# Health expenditure and financing
+## DATAFLOW  OECD.ELS.HD:DSD_SHA@DF_SHA(1.0)
+## df.health_exp <- read_csv("_datasets/OECD.ELS.HD,DSD_SHA@DF_SHA,1.0+all.csv",name_repair="universal")
 #
 # df.health_exp |>
 #   group_by(TIME_PERIOD) |>
@@ -140,10 +140,10 @@ oecd.hlth.exp |>
 
 <br>
 
-Summarize
+### Summarize
 
 
-```{r}
+```{r plt_exp1, fig.width=6, fig.asp=.6}
 oecd.hlth.exp |> 
   filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
          unit_measure=="USD_PPP", price.base=="Constant prices") |>
@@ -163,7 +163,7 @@ oecd.hlth.exp |>
 
 <br>
 
-```{r}
+```{r plt_exp_count, fig.width=6, fig.asp=.6}
 oecd.hlth.exp |> 
   filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
          unit_measure=="USD_PPP", price.base=="Constant prices") |>
@@ -180,7 +180,10 @@ oecd.hlth.exp |>
   )
 ```
 
+<br>
 
+**Health Expenditure by Financing Scheme, 2022**
+*USD Millions PPP converted at constant prices*
 
 
 ```{r}
@@ -193,27 +196,16 @@ oecd.hlth.exp |>
     health_usd = sum(obs_value),
     .by=c(financing.scheme)) |> 
   collect() |> 
-  mutate(pct = health_usd/sum(health_usd)) |> 
-  arrange(desc(health_usd)) |> 
-  gt(rowname_col=1, locale="pt") |> sub_missing() |>
-  fmt_integer(c(countries,health_usd)) |> fmt_percent(pct, decimals=1) |> 
-  gtExtras::gt_plt_bar(health_usd, keep_column=T) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    grand_summary_row.padding=px(2), grand_summary_row.background.color="gray95",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  ) |> 
-  tab_header(title=md("**Health Expenditure by Financing Scheme, 2022**"),
-             subtitle="USD Millions PPP converted at constant prices") |> 
-  tab_source_note("Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris.")
+  mutate(pct = round(health_usd/sum(health_usd)*100, 1)) |> 
+  arrange(desc(health_usd))
 ```
 
 
+*Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris.*
 
-# Coverage
+<br>
+
+## Coverage
 
 ```{r}
 # DATAFLOW  OECD.ELS.HD:DSD_HEALTH_PROT@DF_HEALTH_PROT(1.0)
@@ -256,7 +248,10 @@ oecd.cvrg |> summarise(n=n(), .by=c(insurance.type))
 
 <br>
 
-Summarize
+### Summarize
+
+**Mean health coverage 2022**
+*as percent of population*
 
 ```{r}
 oecd.cvrg |> 
@@ -265,20 +260,10 @@ oecd.cvrg |>
     countries = n_distinct(iso3c),
     pct = mean(obs_value),
     .by=c(insurance.type)) |> 
-  arrange(desc(pct)) |> 
-  gt(rowname_col=1, locale="pt") |> sub_missing() |>
-  fmt_integer(c(countries)) |> fmt_number(pct, decimals=1) |> 
-  gtExtras::gt_plt_bar(pct, keep_column=T) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  ) |> 
-  tab_header(title=md("**Health Coverage by Insurance Type, 2022**"),
-             subtitle="Percentage of population") |> 
-  tab_source_note("Source: OECD, OECD Health Statistics 2023. July 2023.")
+  arrange(desc(pct))
 ```
+*Source: OECD, OECD Health Statistics 2023. July 2023.*
+
+<br>
 
 Must add population data to get weighted average of coverage by insurance type.
