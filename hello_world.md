@@ -1,54 +1,7 @@
 Hello World!
 ================
 Claudia Tanaka
-2024-02-17
-
-``` r
-knitr::opts_chunk$set( message=FALSE, warning=FALSE )
-options(scipen=999) # "Desliga" notação científica. Para "ligar" use scipen=0
-
-
-library(tidyverse) # para trabalhar com tabelas
-```
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.2     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
-``` r
-library(arrow)
-```
-
-    ## 
-    ## Attaching package: 'arrow'
-    ## 
-    ## The following object is masked from 'package:lubridate':
-    ## 
-    ##     duration
-    ## 
-    ## The following object is masked from 'package:utils':
-    ## 
-    ##     timestamp
-
-``` r
-library(gt)
-
-theme_set(theme_light())
-theme_update(
-  panel.grid.minor = element_blank(),
-  plot.title = element_text(size = 12, colour = "gray30", face = "bold"),
-  plot.subtitle = element_text(face = 'italic', colour = "gray50", size = 10),
-  plot.caption = element_text(colour = "gray50", hjust=0, size = 8),
-  legend.title = element_blank(),
-)
-```
+2024-02-18
 
 <br>
 
@@ -146,2438 +99,110 @@ unique(collect(oecd.hlth.exp)$price.base)
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(unit_measure, unit.of.measure)) |> 
   arrange(unit_measure) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
-<div id="slgbjuvuge" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#slgbjuvuge table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-&#10;#slgbjuvuge thead, #slgbjuvuge tbody, #slgbjuvuge tfoot, #slgbjuvuge tr, #slgbjuvuge td, #slgbjuvuge th {
-  border-style: none;
-}
-&#10;#slgbjuvuge p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#slgbjuvuge .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 90%;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#slgbjuvuge .gt_title {
-  color: #333333;
-  font-size: 110%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-&#10;#slgbjuvuge .gt_subtitle {
-  color: #333333;
-  font-size: 90%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-&#10;#slgbjuvuge .gt_heading {
-  background-color: #FFFFFF;
-  text-align: left;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_col_heading {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-&#10;#slgbjuvuge .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-&#10;#slgbjuvuge .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#slgbjuvuge .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#slgbjuvuge .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-&#10;#slgbjuvuge .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#slgbjuvuge .gt_group_heading {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-&#10;#slgbjuvuge .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-&#10;#slgbjuvuge .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#slgbjuvuge .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#slgbjuvuge .gt_row {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-&#10;#slgbjuvuge .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#slgbjuvuge .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-&#10;#slgbjuvuge .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#slgbjuvuge .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#slgbjuvuge .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#slgbjuvuge .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#slgbjuvuge .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#slgbjuvuge .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#slgbjuvuge .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#slgbjuvuge .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#slgbjuvuge .gt_sourcenote {
-  font-size: 70%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#slgbjuvuge .gt_left {
-  text-align: left;
-}
-&#10;#slgbjuvuge .gt_center {
-  text-align: center;
-}
-&#10;#slgbjuvuge .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#slgbjuvuge .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#slgbjuvuge .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#slgbjuvuge .gt_font_italic {
-  font-style: italic;
-}
-&#10;#slgbjuvuge .gt_super {
-  font-size: 65%;
-}
-&#10;#slgbjuvuge .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-&#10;#slgbjuvuge .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#slgbjuvuge .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#slgbjuvuge .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#slgbjuvuge .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#slgbjuvuge .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#slgbjuvuge .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="unit_measure">unit_measure</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="unit.of.measure">unit.of.measure</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="unit_measure" class="gt_row gt_left">EUR_PPP</td>
-<td headers="unit.of.measure" class="gt_row gt_left">Euros, PPP converted</td>
-<td headers="n" class="gt_row gt_right">1.007.544</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">EUR_PPP_PS</td>
-<td headers="unit.of.measure" class="gt_row gt_left">Euros per person, PPP converted</td>
-<td headers="n" class="gt_row gt_right">1.002.475</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">PT_B1GQ</td>
-<td headers="unit.of.measure" class="gt_row gt_left">Percentage of GDP</td>
-<td headers="n" class="gt_row gt_right">616.611</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">PT_EXP_FNC</td>
-<td headers="unit.of.measure" class="gt_row gt_left">Percentage of expenditure in the same function</td>
-<td headers="n" class="gt_row gt_right">568.606</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">PT_EXP_FS</td>
-<td headers="unit.of.measure" class="gt_row gt_left">Percentage of expenditure in the same financing scheme</td>
-<td headers="n" class="gt_row gt_right">561.053</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">PT_EXP_HLTH</td>
-<td headers="unit.of.measure" class="gt_row gt_left">Percentage of expenditure on health</td>
-<td headers="n" class="gt_row gt_right">634.042</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">PT_EXP_PRV</td>
-<td headers="unit.of.measure" class="gt_row gt_left">Percentage of expenditure in the same provider</td>
-<td headers="n" class="gt_row gt_right">570.319</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">USD_PPP</td>
-<td headers="unit.of.measure" class="gt_row gt_left">US dollars, PPP converted</td>
-<td headers="n" class="gt_row gt_right">1.344.483</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">USD_PPP_PS</td>
-<td headers="unit.of.measure" class="gt_row gt_left">US dollars per person, PPP converted</td>
-<td headers="n" class="gt_row gt_right">1.338.259</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">XDC</td>
-<td headers="unit.of.measure" class="gt_row gt_left">National currency</td>
-<td headers="n" class="gt_row gt_right">1.347.114</td></tr>
-    <tr><td headers="unit_measure" class="gt_row gt_left">XDC_PS</td>
-<td headers="unit.of.measure" class="gt_row gt_left">National currency per person</td>
-<td headers="n" class="gt_row gt_right">1.341.715</td></tr>
-  </tbody>
-  &#10;  
-</table>
-</div>
+    ## # A tibble: 11 × 3
+    ##    unit_measure unit.of.measure                                              n
+    ##    <chr>        <chr>                                                    <int>
+    ##  1 EUR_PPP      Euros, PPP converted                                   1007544
+    ##  2 EUR_PPP_PS   Euros per person, PPP converted                        1002475
+    ##  3 PT_B1GQ      Percentage of GDP                                       616611
+    ##  4 PT_EXP_FNC   Percentage of expenditure in the same function          568606
+    ##  5 PT_EXP_FS    Percentage of expenditure in the same financing scheme  561053
+    ##  6 PT_EXP_HLTH  Percentage of expenditure on health                     634042
+    ##  7 PT_EXP_PRV   Percentage of expenditure in the same provider          570319
+    ##  8 USD_PPP      US dollars, PPP converted                              1344483
+    ##  9 USD_PPP_PS   US dollars per person, PPP converted                   1338259
+    ## 10 XDC          National currency                                      1347114
+    ## 11 XDC_PS       National currency per person                           1341715
 
 ``` r
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(financing_scheme, financing.scheme)) |> 
   arrange(financing_scheme) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
-<div id="ygacxgxuxc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ygacxgxuxc table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-&#10;#ygacxgxuxc thead, #ygacxgxuxc tbody, #ygacxgxuxc tfoot, #ygacxgxuxc tr, #ygacxgxuxc td, #ygacxgxuxc th {
-  border-style: none;
-}
-&#10;#ygacxgxuxc p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#ygacxgxuxc .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 90%;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#ygacxgxuxc .gt_title {
-  color: #333333;
-  font-size: 110%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-&#10;#ygacxgxuxc .gt_subtitle {
-  color: #333333;
-  font-size: 90%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-&#10;#ygacxgxuxc .gt_heading {
-  background-color: #FFFFFF;
-  text-align: left;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_col_heading {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-&#10;#ygacxgxuxc .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-&#10;#ygacxgxuxc .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#ygacxgxuxc .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#ygacxgxuxc .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-&#10;#ygacxgxuxc .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#ygacxgxuxc .gt_group_heading {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-&#10;#ygacxgxuxc .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-&#10;#ygacxgxuxc .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#ygacxgxuxc .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#ygacxgxuxc .gt_row {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-&#10;#ygacxgxuxc .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#ygacxgxuxc .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-&#10;#ygacxgxuxc .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#ygacxgxuxc .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#ygacxgxuxc .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#ygacxgxuxc .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#ygacxgxuxc .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#ygacxgxuxc .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#ygacxgxuxc .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#ygacxgxuxc .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#ygacxgxuxc .gt_sourcenote {
-  font-size: 70%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#ygacxgxuxc .gt_left {
-  text-align: left;
-}
-&#10;#ygacxgxuxc .gt_center {
-  text-align: center;
-}
-&#10;#ygacxgxuxc .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#ygacxgxuxc .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#ygacxgxuxc .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#ygacxgxuxc .gt_font_italic {
-  font-style: italic;
-}
-&#10;#ygacxgxuxc .gt_super {
-  font-size: 65%;
-}
-&#10;#ygacxgxuxc .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-&#10;#ygacxgxuxc .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#ygacxgxuxc .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#ygacxgxuxc .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#ygacxgxuxc .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#ygacxgxuxc .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#ygacxgxuxc .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="financing_scheme">financing_scheme</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="financing.scheme">financing.scheme</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF1</td>
-<td headers="financing.scheme" class="gt_row gt_left">Government/compulsory schemes</td>
-<td headers="n" class="gt_row gt_right">904.236</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF11</td>
-<td headers="financing.scheme" class="gt_row gt_left">Government schemes</td>
-<td headers="n" class="gt_row gt_right">707.080</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF121</td>
-<td headers="financing.scheme" class="gt_row gt_left">Social health insurance schemes</td>
-<td headers="n" class="gt_row gt_right">433.106</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF122</td>
-<td headers="financing.scheme" class="gt_row gt_left">Compulsory private insurance schemes</td>
-<td headers="n" class="gt_row gt_right">117.949</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF12HF13</td>
-<td headers="financing.scheme" class="gt_row gt_left">Compulsory contributory health insurance schemes</td>
-<td headers="n" class="gt_row gt_right">559.223</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF2</td>
-<td headers="financing.scheme" class="gt_row gt_left">Voluntary health care payment schemes</td>
-<td headers="n" class="gt_row gt_right">571.368</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF21</td>
-<td headers="financing.scheme" class="gt_row gt_left">Voluntary health insurance schemes</td>
-<td headers="n" class="gt_row gt_right">439.794</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF22</td>
-<td headers="financing.scheme" class="gt_row gt_left">NPISH financing schemes</td>
-<td headers="n" class="gt_row gt_right">248.628</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF23</td>
-<td headers="financing.scheme" class="gt_row gt_left">Enterprise financing schemes</td>
-<td headers="n" class="gt_row gt_right">171.609</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF2HF3</td>
-<td headers="financing.scheme" class="gt_row gt_left">Voluntary schemes/household out-of-pocket payments</td>
-<td headers="n" class="gt_row gt_right">764.271</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF3</td>
-<td headers="financing.scheme" class="gt_row gt_left">Household out-of-pocket payments</td>
-<td headers="n" class="gt_row gt_right">606.934</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF31</td>
-<td headers="financing.scheme" class="gt_row gt_left">Out-of-pocket excluding cost-sharing</td>
-<td headers="n" class="gt_row gt_right">219.342</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF32</td>
-<td headers="financing.scheme" class="gt_row gt_left">Cost-sharing with third-party payers</td>
-<td headers="n" class="gt_row gt_right">165.827</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">HF4</td>
-<td headers="financing.scheme" class="gt_row gt_left">Rest of the world financing schemes (non-resident)</td>
-<td headers="n" class="gt_row gt_right">32.154</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">_T</td>
-<td headers="financing.scheme" class="gt_row gt_left">Total</td>
-<td headers="n" class="gt_row gt_right">4.385.749</td></tr>
-    <tr><td headers="financing_scheme" class="gt_row gt_left">_U</td>
-<td headers="financing.scheme" class="gt_row gt_left">Unknown</td>
-<td headers="n" class="gt_row gt_right">4.951</td></tr>
-  </tbody>
-  &#10;  
-</table>
-</div>
+    ## # A tibble: 16 × 3
+    ##    financing_scheme financing.scheme                                         n
+    ##    <chr>            <chr>                                                <int>
+    ##  1 HF1              Government/compulsory schemes                       904236
+    ##  2 HF11             Government schemes                                  707080
+    ##  3 HF121            Social health insurance schemes                     433106
+    ##  4 HF122            Compulsory private insurance schemes                117949
+    ##  5 HF12HF13         Compulsory contributory health insurance schemes    559223
+    ##  6 HF2              Voluntary health care payment schemes               571368
+    ##  7 HF21             Voluntary health insurance schemes                  439794
+    ##  8 HF22             NPISH financing schemes                             248628
+    ##  9 HF23             Enterprise financing schemes                        171609
+    ## 10 HF2HF3           Voluntary schemes/household out-of-pocket payments  764271
+    ## 11 HF3              Household out-of-pocket payments                    606934
+    ## 12 HF31             Out-of-pocket excluding cost-sharing                219342
+    ## 13 HF32             Cost-sharing with third-party payers                165827
+    ## 14 HF4              Rest of the world financing schemes (non-resident)   32154
+    ## 15 _T               Total                                              4385749
+    ## 16 _U               Unknown                                               4951
 
 ``` r
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(health_function, health.function)) |> 
   arrange(health_function) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
-<div id="gvprdtttmh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gvprdtttmh table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-&#10;#gvprdtttmh thead, #gvprdtttmh tbody, #gvprdtttmh tfoot, #gvprdtttmh tr, #gvprdtttmh td, #gvprdtttmh th {
-  border-style: none;
-}
-&#10;#gvprdtttmh p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#gvprdtttmh .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 90%;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#gvprdtttmh .gt_title {
-  color: #333333;
-  font-size: 110%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-&#10;#gvprdtttmh .gt_subtitle {
-  color: #333333;
-  font-size: 90%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-&#10;#gvprdtttmh .gt_heading {
-  background-color: #FFFFFF;
-  text-align: left;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_col_heading {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-&#10;#gvprdtttmh .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-&#10;#gvprdtttmh .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#gvprdtttmh .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#gvprdtttmh .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-&#10;#gvprdtttmh .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#gvprdtttmh .gt_group_heading {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-&#10;#gvprdtttmh .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-&#10;#gvprdtttmh .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#gvprdtttmh .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#gvprdtttmh .gt_row {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-&#10;#gvprdtttmh .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#gvprdtttmh .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-&#10;#gvprdtttmh .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#gvprdtttmh .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#gvprdtttmh .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#gvprdtttmh .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#gvprdtttmh .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#gvprdtttmh .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#gvprdtttmh .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#gvprdtttmh .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#gvprdtttmh .gt_sourcenote {
-  font-size: 70%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#gvprdtttmh .gt_left {
-  text-align: left;
-}
-&#10;#gvprdtttmh .gt_center {
-  text-align: center;
-}
-&#10;#gvprdtttmh .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#gvprdtttmh .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#gvprdtttmh .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#gvprdtttmh .gt_font_italic {
-  font-style: italic;
-}
-&#10;#gvprdtttmh .gt_super {
-  font-size: 65%;
-}
-&#10;#gvprdtttmh .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-&#10;#gvprdtttmh .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#gvprdtttmh .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#gvprdtttmh .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#gvprdtttmh .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#gvprdtttmh .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#gvprdtttmh .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="health_function">health_function</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="health.function">health.function</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="health_function" class="gt_row gt_left">BASIC</td>
-<td headers="health.function" class="gt_row gt_left">Basic health care services</td>
-<td headers="n" class="gt_row gt_right">194.064</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">BASIC_PH</td>
-<td headers="health.function" class="gt_row gt_left">Basic health care services and pharmaceuticals</td>
-<td headers="n" class="gt_row gt_right">157.540</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC0</td>
-<td headers="health.function" class="gt_row gt_left">Other health care services unknown</td>
-<td headers="n" class="gt_row gt_right">56.978</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC1</td>
-<td headers="health.function" class="gt_row gt_left">Curative care</td>
-<td headers="n" class="gt_row gt_right">871.726</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC131</td>
-<td headers="health.function" class="gt_row gt_left">General curative care</td>
-<td headers="n" class="gt_row gt_right">175.062</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC132</td>
-<td headers="health.function" class="gt_row gt_left">Dental curative care</td>
-<td headers="n" class="gt_row gt_right">164.315</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC133</td>
-<td headers="health.function" class="gt_row gt_left">Specialised curative care</td>
-<td headers="n" class="gt_row gt_right">146.060</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC139</td>
-<td headers="health.function" class="gt_row gt_left">Other curative care</td>
-<td headers="n" class="gt_row gt_right">105.292</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC1HC2</td>
-<td headers="health.function" class="gt_row gt_left">Curative and rehabilitative care</td>
-<td headers="n" class="gt_row gt_right">1.023.803</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC1_HC4</td>
-<td headers="health.function" class="gt_row gt_left">Individual health care services</td>
-<td headers="n" class="gt_row gt_right">361.939</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC1_HC5</td>
-<td headers="health.function" class="gt_row gt_left">Individual health care services and medical goods</td>
-<td headers="n" class="gt_row gt_right">401.381</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC2</td>
-<td headers="health.function" class="gt_row gt_left">Rehabilitative care</td>
-<td headers="n" class="gt_row gt_right">516.180</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC3</td>
-<td headers="health.function" class="gt_row gt_left">Long-term care (health)</td>
-<td headers="n" class="gt_row gt_right">642.123</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC4</td>
-<td headers="health.function" class="gt_row gt_left">Ancillary services (non-specified by function)</td>
-<td headers="n" class="gt_row gt_right">209.686</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC41</td>
-<td headers="health.function" class="gt_row gt_left">Laboratory services</td>
-<td headers="n" class="gt_row gt_right">132.729</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC42</td>
-<td headers="health.function" class="gt_row gt_left">Imaging services</td>
-<td headers="n" class="gt_row gt_right">121.699</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC43</td>
-<td headers="health.function" class="gt_row gt_left">Patient transportation</td>
-<td headers="n" class="gt_row gt_right">142.145</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC5</td>
-<td headers="health.function" class="gt_row gt_left">Medical goods (non-specified by function)</td>
-<td headers="n" class="gt_row gt_right">219.528</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC51</td>
-<td headers="health.function" class="gt_row gt_left">Pharmaceuticals and other medical non-durable goods</td>
-<td headers="n" class="gt_row gt_right">198.304</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC511</td>
-<td headers="health.function" class="gt_row gt_left">Prescribed medicines</td>
-<td headers="n" class="gt_row gt_right">133.696</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC512</td>
-<td headers="health.function" class="gt_row gt_left">Over-the-counter medicines</td>
-<td headers="n" class="gt_row gt_right">70.341</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC513</td>
-<td headers="health.function" class="gt_row gt_left">Other medical non-durable goods</td>
-<td headers="n" class="gt_row gt_right">94.145</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC52</td>
-<td headers="health.function" class="gt_row gt_left">Therapeutic appliances and other medical durable goods</td>
-<td headers="n" class="gt_row gt_right">169.602</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC6</td>
-<td headers="health.function" class="gt_row gt_left">Preventive care</td>
-<td headers="n" class="gt_row gt_right">228.083</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC61</td>
-<td headers="health.function" class="gt_row gt_left">Information, education and counseling programmes</td>
-<td headers="n" class="gt_row gt_right">75.667</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC62</td>
-<td headers="health.function" class="gt_row gt_left">Immunisation programmes</td>
-<td headers="n" class="gt_row gt_right">54.162</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC63</td>
-<td headers="health.function" class="gt_row gt_left">Early disease detection programmes</td>
-<td headers="n" class="gt_row gt_right">56.805</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC64</td>
-<td headers="health.function" class="gt_row gt_left">Healthy condition monitoring programmes</td>
-<td headers="n" class="gt_row gt_right">90.010</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC65</td>
-<td headers="health.function" class="gt_row gt_left">Epidemiological surveillance and risk and disease control programmes</td>
-<td headers="n" class="gt_row gt_right">43.105</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC66</td>
-<td headers="health.function" class="gt_row gt_left">Preparing for disaster and emergency response programmes</td>
-<td headers="n" class="gt_row gt_right">14.810</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC6HC7</td>
-<td headers="health.function" class="gt_row gt_left">Collective health care</td>
-<td headers="n" class="gt_row gt_right">289.558</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC7</td>
-<td headers="health.function" class="gt_row gt_left">Governance and health system and financing administration</td>
-<td headers="n" class="gt_row gt_right">151.875</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC71</td>
-<td headers="health.function" class="gt_row gt_left">Governance and health system administration</td>
-<td headers="n" class="gt_row gt_right">71.785</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HC72</td>
-<td headers="health.function" class="gt_row gt_left">Administration of health financing</td>
-<td headers="n" class="gt_row gt_right">93.062</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCCOV1</td>
-<td headers="health.function" class="gt_row gt_left">COVID-19 related treatment costs</td>
-<td headers="n" class="gt_row gt_right">6.444</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCCOV2</td>
-<td headers="health.function" class="gt_row gt_left">COVID-19 related costs for testing and contact tracing</td>
-<td headers="n" class="gt_row gt_right">7.205</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCCOV3</td>
-<td headers="health.function" class="gt_row gt_left">COVID-19 related costs for vaccination</td>
-<td headers="n" class="gt_row gt_right">4.405</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCCOV4</td>
-<td headers="health.function" class="gt_row gt_left">COVID-19 related costs for medical goods</td>
-<td headers="n" class="gt_row gt_right">5.994</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCCOV5</td>
-<td headers="health.function" class="gt_row gt_left">Other COVID-19 related health care costs (incl. in CHE)</td>
-<td headers="n" class="gt_row gt_right">5.979</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCR1</td>
-<td headers="health.function" class="gt_row gt_left">Long-term care (social)</td>
-<td headers="n" class="gt_row gt_right">57.735</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCR2</td>
-<td headers="health.function" class="gt_row gt_left">Health promotion with multi-sectoral approach</td>
-<td headers="n" class="gt_row gt_right">8.618</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCRCOV1</td>
-<td headers="health.function" class="gt_row gt_left">COVID-19 related provider support</td>
-<td headers="n" class="gt_row gt_right">2.109</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCRI1</td>
-<td headers="health.function" class="gt_row gt_left">Total pharmaceutical expenditure (including inpatient and other ways of provision)</td>
-<td headers="n" class="gt_row gt_right">57.388</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCRI2</td>
-<td headers="health.function" class="gt_row gt_left">Traditional, Complementary and Alternative Medicines (TCAM)</td>
-<td headers="n" class="gt_row gt_right">11.830</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HCTOTHK11</td>
-<td headers="health.function" class="gt_row gt_left">Current expenditure on health plus gross fixed capital formation</td>
-<td headers="n" class="gt_row gt_right">12.142</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">HKCOV1</td>
-<td headers="health.function" class="gt_row gt_left">COVID-19 related investment costs</td>
-<td headers="n" class="gt_row gt_right">2.371</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">LTC_TOT</td>
-<td headers="health.function" class="gt_row gt_left">Total long-term care expenditure</td>
-<td headers="n" class="gt_row gt_right">173.535</td></tr>
-    <tr><td headers="health_function" class="gt_row gt_left">_T</td>
-<td headers="health.function" class="gt_row gt_left">Total</td>
-<td headers="n" class="gt_row gt_right">2.499.206</td></tr>
-  </tbody>
-  &#10;  
-</table>
-</div>
+    ## # A tibble: 48 × 3
+    ##    health_function health.function                                      n
+    ##    <chr>           <chr>                                            <int>
+    ##  1 BASIC           Basic health care services                      194064
+    ##  2 BASIC_PH        Basic health care services and pharmaceuticals  157540
+    ##  3 HC0             Other health care services unknown               56978
+    ##  4 HC1             Curative care                                   871726
+    ##  5 HC131           General curative care                           175062
+    ##  6 HC132           Dental curative care                            164315
+    ##  7 HC133           Specialised curative care                       146060
+    ##  8 HC139           Other curative care                             105292
+    ##  9 HC1HC2          Curative and rehabilitative care               1023803
+    ## 10 HC1_HC4         Individual health care services                 361939
+    ## # ℹ 38 more rows
 
 ``` r
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(mode_provision, mode.of.provision)) |> 
   arrange(mode_provision) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
-<div id="kxhyqndxto" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kxhyqndxto table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-&#10;#kxhyqndxto thead, #kxhyqndxto tbody, #kxhyqndxto tfoot, #kxhyqndxto tr, #kxhyqndxto td, #kxhyqndxto th {
-  border-style: none;
-}
-&#10;#kxhyqndxto p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#kxhyqndxto .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 90%;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#kxhyqndxto .gt_title {
-  color: #333333;
-  font-size: 110%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-&#10;#kxhyqndxto .gt_subtitle {
-  color: #333333;
-  font-size: 90%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-&#10;#kxhyqndxto .gt_heading {
-  background-color: #FFFFFF;
-  text-align: left;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_col_heading {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-&#10;#kxhyqndxto .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-&#10;#kxhyqndxto .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#kxhyqndxto .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#kxhyqndxto .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-&#10;#kxhyqndxto .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#kxhyqndxto .gt_group_heading {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-&#10;#kxhyqndxto .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-&#10;#kxhyqndxto .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#kxhyqndxto .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#kxhyqndxto .gt_row {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-&#10;#kxhyqndxto .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#kxhyqndxto .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-&#10;#kxhyqndxto .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#kxhyqndxto .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#kxhyqndxto .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#kxhyqndxto .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#kxhyqndxto .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#kxhyqndxto .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#kxhyqndxto .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#kxhyqndxto .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#kxhyqndxto .gt_sourcenote {
-  font-size: 70%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#kxhyqndxto .gt_left {
-  text-align: left;
-}
-&#10;#kxhyqndxto .gt_center {
-  text-align: center;
-}
-&#10;#kxhyqndxto .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#kxhyqndxto .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#kxhyqndxto .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#kxhyqndxto .gt_font_italic {
-  font-style: italic;
-}
-&#10;#kxhyqndxto .gt_super {
-  font-size: 65%;
-}
-&#10;#kxhyqndxto .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-&#10;#kxhyqndxto .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#kxhyqndxto .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#kxhyqndxto .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#kxhyqndxto .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#kxhyqndxto .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#kxhyqndxto .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="mode_provision">mode_provision</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="mode.of.provision">mode.of.provision</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="mode_provision" class="gt_row gt_left">DAY</td>
-<td headers="mode.of.provision" class="gt_row gt_left">Day</td>
-<td headers="n" class="gt_row gt_right">363.532</td></tr>
-    <tr><td headers="mode_provision" class="gt_row gt_left">HB</td>
-<td headers="mode.of.provision" class="gt_row gt_left">Home-based</td>
-<td headers="n" class="gt_row gt_right">408.654</td></tr>
-    <tr><td headers="mode_provision" class="gt_row gt_left">HBEDT</td>
-<td headers="mode.of.provision" class="gt_row gt_left">Inpatient</td>
-<td headers="n" class="gt_row gt_right">667.781</td></tr>
-    <tr><td headers="mode_provision" class="gt_row gt_left">HBOUT</td>
-<td headers="mode.of.provision" class="gt_row gt_left">Outpatient</td>
-<td headers="n" class="gt_row gt_right">1.266.758</td></tr>
-    <tr><td headers="mode_provision" class="gt_row gt_left">_T</td>
-<td headers="mode.of.provision" class="gt_row gt_left">Total</td>
-<td headers="n" class="gt_row gt_right">7.625.496</td></tr>
-  </tbody>
-  &#10;  
-</table>
-</div>
+    ## # A tibble: 5 × 3
+    ##   mode_provision mode.of.provision       n
+    ##   <chr>          <chr>               <int>
+    ## 1 DAY            Day                363532
+    ## 2 HB             Home-based         408654
+    ## 3 HBEDT          Inpatient          667781
+    ## 4 HBOUT          Outpatient        1266758
+    ## 5 _T             Total             7625496
 
 ``` r
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(provider, health.care.provider)) |> 
   arrange(provider) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
-<div id="llgtwvfgwi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#llgtwvfgwi table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-&#10;#llgtwvfgwi thead, #llgtwvfgwi tbody, #llgtwvfgwi tfoot, #llgtwvfgwi tr, #llgtwvfgwi td, #llgtwvfgwi th {
-  border-style: none;
-}
-&#10;#llgtwvfgwi p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#llgtwvfgwi .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 90%;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#llgtwvfgwi .gt_title {
-  color: #333333;
-  font-size: 110%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-&#10;#llgtwvfgwi .gt_subtitle {
-  color: #333333;
-  font-size: 90%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-&#10;#llgtwvfgwi .gt_heading {
-  background-color: #FFFFFF;
-  text-align: left;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_col_heading {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-&#10;#llgtwvfgwi .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #F2F2F2;
-  font-size: 80%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-&#10;#llgtwvfgwi .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#llgtwvfgwi .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#llgtwvfgwi .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-&#10;#llgtwvfgwi .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#llgtwvfgwi .gt_group_heading {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-&#10;#llgtwvfgwi .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-&#10;#llgtwvfgwi .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#llgtwvfgwi .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#llgtwvfgwi .gt_row {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-&#10;#llgtwvfgwi .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#llgtwvfgwi .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-&#10;#llgtwvfgwi .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#llgtwvfgwi .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#llgtwvfgwi .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#llgtwvfgwi .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#llgtwvfgwi .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#llgtwvfgwi .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#llgtwvfgwi .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#llgtwvfgwi .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#llgtwvfgwi .gt_sourcenote {
-  font-size: 70%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#llgtwvfgwi .gt_left {
-  text-align: left;
-}
-&#10;#llgtwvfgwi .gt_center {
-  text-align: center;
-}
-&#10;#llgtwvfgwi .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#llgtwvfgwi .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#llgtwvfgwi .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#llgtwvfgwi .gt_font_italic {
-  font-style: italic;
-}
-&#10;#llgtwvfgwi .gt_super {
-  font-size: 65%;
-}
-&#10;#llgtwvfgwi .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-&#10;#llgtwvfgwi .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#llgtwvfgwi .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#llgtwvfgwi .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#llgtwvfgwi .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#llgtwvfgwi .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#llgtwvfgwi .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="provider">provider</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="health.care.provider">health.care.provider</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="provider" class="gt_row gt_left">HP1</td>
-<td headers="health.care.provider" class="gt_row gt_left">Hospitals</td>
-<td headers="n" class="gt_row gt_right">432.118</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP11</td>
-<td headers="health.care.provider" class="gt_row gt_left">General hospitals</td>
-<td headers="n" class="gt_row gt_right">353.704</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP12</td>
-<td headers="health.care.provider" class="gt_row gt_left">Mental health hospitals</td>
-<td headers="n" class="gt_row gt_right">207.843</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP13</td>
-<td headers="health.care.provider" class="gt_row gt_left">Specialised hospitals (other than mental health hospitals)</td>
-<td headers="n" class="gt_row gt_right">238.416</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP2</td>
-<td headers="health.care.provider" class="gt_row gt_left">Residential long-term care facilities</td>
-<td headers="n" class="gt_row gt_right">231.269</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP21</td>
-<td headers="health.care.provider" class="gt_row gt_left">Long-term nursing care facilities</td>
-<td headers="n" class="gt_row gt_right">161.459</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP22</td>
-<td headers="health.care.provider" class="gt_row gt_left">Mental health and substance abuse faciltites</td>
-<td headers="n" class="gt_row gt_right">78.058</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP29</td>
-<td headers="health.care.provider" class="gt_row gt_left">Other residential long-term care facilities</td>
-<td headers="n" class="gt_row gt_right">82.045</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP3</td>
-<td headers="health.care.provider" class="gt_row gt_left">Providers of ambulatory health care</td>
-<td headers="n" class="gt_row gt_right">454.415</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP31</td>
-<td headers="health.care.provider" class="gt_row gt_left">Medical practices</td>
-<td headers="n" class="gt_row gt_right">323.918</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP32</td>
-<td headers="health.care.provider" class="gt_row gt_left">Dental practices</td>
-<td headers="n" class="gt_row gt_right">226.042</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP33</td>
-<td headers="health.care.provider" class="gt_row gt_left">Other health care practitioners</td>
-<td headers="n" class="gt_row gt_right">229.626</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP34</td>
-<td headers="health.care.provider" class="gt_row gt_left">Ambulatory</td>
-<td headers="n" class="gt_row gt_right">270.814</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP35</td>
-<td headers="health.care.provider" class="gt_row gt_left">Providers of home health care services</td>
-<td headers="n" class="gt_row gt_right">178.934</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP4</td>
-<td headers="health.care.provider" class="gt_row gt_left">Providers of ancillary services</td>
-<td headers="n" class="gt_row gt_right">197.774</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP41</td>
-<td headers="health.care.provider" class="gt_row gt_left">Providers of patient transportation and emergency rescue</td>
-<td headers="n" class="gt_row gt_right">129.611</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP42</td>
-<td headers="health.care.provider" class="gt_row gt_left">Medical and diagnostic laboratories</td>
-<td headers="n" class="gt_row gt_right">139.604</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP49</td>
-<td headers="health.care.provider" class="gt_row gt_left">Other providers of ancillary services</td>
-<td headers="n" class="gt_row gt_right">38.409</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP5</td>
-<td headers="health.care.provider" class="gt_row gt_left">Retailers and other providers of medical goods</td>
-<td headers="n" class="gt_row gt_right">231.802</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP51</td>
-<td headers="health.care.provider" class="gt_row gt_left">Pharmacies</td>
-<td headers="n" class="gt_row gt_right">184.778</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP52</td>
-<td headers="health.care.provider" class="gt_row gt_left">Retail sellers and other suppliers of durable medical goods and medical appliances</td>
-<td headers="n" class="gt_row gt_right">154.515</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP59</td>
-<td headers="health.care.provider" class="gt_row gt_left">All other miscellaneous sellers and other suppliers of pharmaceuticals and medical goods</td>
-<td headers="n" class="gt_row gt_right">63.324</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP6</td>
-<td headers="health.care.provider" class="gt_row gt_left">Providers of preventive care</td>
-<td headers="n" class="gt_row gt_right">169.054</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP7</td>
-<td headers="health.care.provider" class="gt_row gt_left">Providers of health care system administration and financing</td>
-<td headers="n" class="gt_row gt_right">178.845</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP71</td>
-<td headers="health.care.provider" class="gt_row gt_left">Government health administration agencies</td>
-<td headers="n" class="gt_row gt_right">96.488</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP72</td>
-<td headers="health.care.provider" class="gt_row gt_left">Social health insurance agencies</td>
-<td headers="n" class="gt_row gt_right">77.332</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP73</td>
-<td headers="health.care.provider" class="gt_row gt_left">Private health insurance administration agencies</td>
-<td headers="n" class="gt_row gt_right">67.882</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP79</td>
-<td headers="health.care.provider" class="gt_row gt_left">Other administration agencies</td>
-<td headers="n" class="gt_row gt_right">15.377</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP8</td>
-<td headers="health.care.provider" class="gt_row gt_left">Rest of the economy</td>
-<td headers="n" class="gt_row gt_right">231.237</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP81</td>
-<td headers="health.care.provider" class="gt_row gt_left">Households as providers of home health care</td>
-<td headers="n" class="gt_row gt_right">68.409</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP82</td>
-<td headers="health.care.provider" class="gt_row gt_left">All other industries as secondary providers of health care</td>
-<td headers="n" class="gt_row gt_right">198.972</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">HP9</td>
-<td headers="health.care.provider" class="gt_row gt_left">Rest of the world</td>
-<td headers="n" class="gt_row gt_right">165.393</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">_T</td>
-<td headers="health.care.provider" class="gt_row gt_left">Total</td>
-<td headers="n" class="gt_row gt_right">4.414.564</td></tr>
-    <tr><td headers="provider" class="gt_row gt_left">_U</td>
-<td headers="health.care.provider" class="gt_row gt_left">Unknown</td>
-<td headers="n" class="gt_row gt_right">40.190</td></tr>
-  </tbody>
-  &#10;  
-</table>
-</div>
+    ## # A tibble: 34 × 3
+    ##    provider health.care.provider                                            n
+    ##    <chr>    <chr>                                                       <int>
+    ##  1 HP1      Hospitals                                                  432118
+    ##  2 HP11     General hospitals                                          353704
+    ##  3 HP12     Mental health hospitals                                    207843
+    ##  4 HP13     Specialised hospitals (other than mental health hospitals) 238416
+    ##  5 HP2      Residential long-term care facilities                      231269
+    ##  6 HP21     Long-term nursing care facilities                          161459
+    ##  7 HP22     Mental health and substance abuse faciltites                78058
+    ##  8 HP29     Other residential long-term care facilities                 82045
+    ##  9 HP3      Providers of ambulatory health care                        454415
+    ## 10 HP31     Medical practices                                          323918
+    ## # ℹ 24 more rows
 
 <br>
 
@@ -2652,20 +277,20 @@ oecd.hlth.exp |>
   tab_source_note("Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris.")
 ```
 
-<div id="jtvbfonqtm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jtvbfonqtm table {
+<div id="pjxjoqcfmc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pjxjoqcfmc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#jtvbfonqtm thead, #jtvbfonqtm tbody, #jtvbfonqtm tfoot, #jtvbfonqtm tr, #jtvbfonqtm td, #jtvbfonqtm th {
+&#10;#pjxjoqcfmc thead, #pjxjoqcfmc tbody, #pjxjoqcfmc tfoot, #pjxjoqcfmc tr, #pjxjoqcfmc td, #pjxjoqcfmc th {
   border-style: none;
 }
-&#10;#jtvbfonqtm p {
+&#10;#pjxjoqcfmc p {
   margin: 0;
   padding: 0;
 }
-&#10;#jtvbfonqtm .gt_table {
+&#10;#pjxjoqcfmc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2690,11 +315,11 @@ oecd.hlth.exp |>
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_caption {
+&#10;#pjxjoqcfmc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#jtvbfonqtm .gt_title {
+&#10;#pjxjoqcfmc .gt_title {
   color: #333333;
   font-size: 110%;
   font-weight: initial;
@@ -2705,7 +330,7 @@ oecd.hlth.exp |>
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#jtvbfonqtm .gt_subtitle {
+&#10;#pjxjoqcfmc .gt_subtitle {
   color: #333333;
   font-size: 90%;
   font-weight: initial;
@@ -2716,7 +341,7 @@ oecd.hlth.exp |>
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#jtvbfonqtm .gt_heading {
+&#10;#pjxjoqcfmc .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -2727,12 +352,12 @@ oecd.hlth.exp |>
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_bottom_border {
+&#10;#pjxjoqcfmc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_col_headings {
+&#10;#pjxjoqcfmc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2746,7 +371,7 @@ oecd.hlth.exp |>
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_col_heading {
+&#10;#pjxjoqcfmc .gt_col_heading {
   color: #333333;
   background-color: #F2F2F2;
   font-size: 80%;
@@ -2765,7 +390,7 @@ oecd.hlth.exp |>
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#jtvbfonqtm .gt_column_spanner_outer {
+&#10;#pjxjoqcfmc .gt_column_spanner_outer {
   color: #333333;
   background-color: #F2F2F2;
   font-size: 80%;
@@ -2776,13 +401,13 @@ oecd.hlth.exp |>
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#jtvbfonqtm .gt_column_spanner_outer:first-child {
+&#10;#pjxjoqcfmc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#jtvbfonqtm .gt_column_spanner_outer:last-child {
+&#10;#pjxjoqcfmc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#jtvbfonqtm .gt_column_spanner {
+&#10;#pjxjoqcfmc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2793,10 +418,10 @@ oecd.hlth.exp |>
   display: inline-block;
   width: 100%;
 }
-&#10;#jtvbfonqtm .gt_spanner_row {
+&#10;#pjxjoqcfmc .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#jtvbfonqtm .gt_group_heading {
+&#10;#pjxjoqcfmc .gt_group_heading {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
@@ -2821,7 +446,7 @@ oecd.hlth.exp |>
   vertical-align: middle;
   text-align: left;
 }
-&#10;#jtvbfonqtm .gt_empty_group_heading {
+&#10;#pjxjoqcfmc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2835,13 +460,13 @@ oecd.hlth.exp |>
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#jtvbfonqtm .gt_from_md > :first-child {
+&#10;#pjxjoqcfmc .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#jtvbfonqtm .gt_from_md > :last-child {
+&#10;#pjxjoqcfmc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#jtvbfonqtm .gt_row {
+&#10;#pjxjoqcfmc .gt_row {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
@@ -2859,7 +484,7 @@ oecd.hlth.exp |>
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#jtvbfonqtm .gt_stub {
+&#10;#pjxjoqcfmc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2871,7 +496,7 @@ oecd.hlth.exp |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#jtvbfonqtm .gt_stub_row_group {
+&#10;#pjxjoqcfmc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2884,13 +509,13 @@ oecd.hlth.exp |>
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#jtvbfonqtm .gt_row_group_first td {
+&#10;#pjxjoqcfmc .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#jtvbfonqtm .gt_row_group_first th {
+&#10;#pjxjoqcfmc .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#jtvbfonqtm .gt_summary_row {
+&#10;#pjxjoqcfmc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2899,14 +524,14 @@ oecd.hlth.exp |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#jtvbfonqtm .gt_first_summary_row {
+&#10;#pjxjoqcfmc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_first_summary_row.thick {
+&#10;#pjxjoqcfmc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#jtvbfonqtm .gt_last_summary_row {
+&#10;#pjxjoqcfmc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2915,7 +540,7 @@ oecd.hlth.exp |>
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_grand_summary_row {
+&#10;#pjxjoqcfmc .gt_grand_summary_row {
   color: #333333;
   background-color: #F2F2F2;
   text-transform: inherit;
@@ -2924,7 +549,7 @@ oecd.hlth.exp |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#jtvbfonqtm .gt_first_grand_summary_row {
+&#10;#pjxjoqcfmc .gt_first_grand_summary_row {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
@@ -2933,7 +558,7 @@ oecd.hlth.exp |>
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_last_grand_summary_row_top {
+&#10;#pjxjoqcfmc .gt_last_grand_summary_row_top {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
@@ -2942,10 +567,10 @@ oecd.hlth.exp |>
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_striped {
+&#10;#pjxjoqcfmc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#jtvbfonqtm .gt_table_body {
+&#10;#pjxjoqcfmc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2953,7 +578,7 @@ oecd.hlth.exp |>
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_footnotes {
+&#10;#pjxjoqcfmc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2966,7 +591,7 @@ oecd.hlth.exp |>
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_footnote {
+&#10;#pjxjoqcfmc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2974,7 +599,7 @@ oecd.hlth.exp |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#jtvbfonqtm .gt_sourcenotes {
+&#10;#pjxjoqcfmc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2987,57 +612,57 @@ oecd.hlth.exp |>
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#jtvbfonqtm .gt_sourcenote {
+&#10;#pjxjoqcfmc .gt_sourcenote {
   font-size: 70%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#jtvbfonqtm .gt_left {
+&#10;#pjxjoqcfmc .gt_left {
   text-align: left;
 }
-&#10;#jtvbfonqtm .gt_center {
+&#10;#pjxjoqcfmc .gt_center {
   text-align: center;
 }
-&#10;#jtvbfonqtm .gt_right {
+&#10;#pjxjoqcfmc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#jtvbfonqtm .gt_font_normal {
+&#10;#pjxjoqcfmc .gt_font_normal {
   font-weight: normal;
 }
-&#10;#jtvbfonqtm .gt_font_bold {
+&#10;#pjxjoqcfmc .gt_font_bold {
   font-weight: bold;
 }
-&#10;#jtvbfonqtm .gt_font_italic {
+&#10;#pjxjoqcfmc .gt_font_italic {
   font-style: italic;
 }
-&#10;#jtvbfonqtm .gt_super {
+&#10;#pjxjoqcfmc .gt_super {
   font-size: 65%;
 }
-&#10;#jtvbfonqtm .gt_footnote_marks {
+&#10;#pjxjoqcfmc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#jtvbfonqtm .gt_asterisk {
+&#10;#pjxjoqcfmc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#jtvbfonqtm .gt_indent_1 {
+&#10;#pjxjoqcfmc .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#jtvbfonqtm .gt_indent_2 {
+&#10;#pjxjoqcfmc .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#jtvbfonqtm .gt_indent_3 {
+&#10;#pjxjoqcfmc .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#jtvbfonqtm .gt_indent_4 {
+&#10;#pjxjoqcfmc .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#jtvbfonqtm .gt_indent_5 {
+&#10;#pjxjoqcfmc .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3222,20 +847,20 @@ oecd.cvrg |>
   tab_source_note("Source: OECD, OECD Health Statistics 2023. July 2023.")
 ```
 
-<div id="kxhulyvrig" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kxhulyvrig table {
+<div id="ltgvfwboig" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ltgvfwboig table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#kxhulyvrig thead, #kxhulyvrig tbody, #kxhulyvrig tfoot, #kxhulyvrig tr, #kxhulyvrig td, #kxhulyvrig th {
+&#10;#ltgvfwboig thead, #ltgvfwboig tbody, #ltgvfwboig tfoot, #ltgvfwboig tr, #ltgvfwboig td, #ltgvfwboig th {
   border-style: none;
 }
-&#10;#kxhulyvrig p {
+&#10;#ltgvfwboig p {
   margin: 0;
   padding: 0;
 }
-&#10;#kxhulyvrig .gt_table {
+&#10;#ltgvfwboig .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3260,11 +885,11 @@ oecd.cvrg |>
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_caption {
+&#10;#ltgvfwboig .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#kxhulyvrig .gt_title {
+&#10;#ltgvfwboig .gt_title {
   color: #333333;
   font-size: 110%;
   font-weight: initial;
@@ -3275,7 +900,7 @@ oecd.cvrg |>
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#kxhulyvrig .gt_subtitle {
+&#10;#ltgvfwboig .gt_subtitle {
   color: #333333;
   font-size: 90%;
   font-weight: initial;
@@ -3286,7 +911,7 @@ oecd.cvrg |>
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#kxhulyvrig .gt_heading {
+&#10;#ltgvfwboig .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -3297,12 +922,12 @@ oecd.cvrg |>
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_bottom_border {
+&#10;#ltgvfwboig .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_col_headings {
+&#10;#ltgvfwboig .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3316,7 +941,7 @@ oecd.cvrg |>
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_col_heading {
+&#10;#ltgvfwboig .gt_col_heading {
   color: #333333;
   background-color: #F2F2F2;
   font-size: 80%;
@@ -3335,7 +960,7 @@ oecd.cvrg |>
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#kxhulyvrig .gt_column_spanner_outer {
+&#10;#ltgvfwboig .gt_column_spanner_outer {
   color: #333333;
   background-color: #F2F2F2;
   font-size: 80%;
@@ -3346,13 +971,13 @@ oecd.cvrg |>
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#kxhulyvrig .gt_column_spanner_outer:first-child {
+&#10;#ltgvfwboig .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#kxhulyvrig .gt_column_spanner_outer:last-child {
+&#10;#ltgvfwboig .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#kxhulyvrig .gt_column_spanner {
+&#10;#ltgvfwboig .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3363,10 +988,10 @@ oecd.cvrg |>
   display: inline-block;
   width: 100%;
 }
-&#10;#kxhulyvrig .gt_spanner_row {
+&#10;#ltgvfwboig .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#kxhulyvrig .gt_group_heading {
+&#10;#ltgvfwboig .gt_group_heading {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
@@ -3391,7 +1016,7 @@ oecd.cvrg |>
   vertical-align: middle;
   text-align: left;
 }
-&#10;#kxhulyvrig .gt_empty_group_heading {
+&#10;#ltgvfwboig .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3405,13 +1030,13 @@ oecd.cvrg |>
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#kxhulyvrig .gt_from_md > :first-child {
+&#10;#ltgvfwboig .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#kxhulyvrig .gt_from_md > :last-child {
+&#10;#ltgvfwboig .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#kxhulyvrig .gt_row {
+&#10;#ltgvfwboig .gt_row {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
@@ -3429,7 +1054,7 @@ oecd.cvrg |>
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#kxhulyvrig .gt_stub {
+&#10;#ltgvfwboig .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3441,7 +1066,7 @@ oecd.cvrg |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#kxhulyvrig .gt_stub_row_group {
+&#10;#ltgvfwboig .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3454,13 +1079,13 @@ oecd.cvrg |>
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#kxhulyvrig .gt_row_group_first td {
+&#10;#ltgvfwboig .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#kxhulyvrig .gt_row_group_first th {
+&#10;#ltgvfwboig .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#kxhulyvrig .gt_summary_row {
+&#10;#ltgvfwboig .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3469,14 +1094,14 @@ oecd.cvrg |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#kxhulyvrig .gt_first_summary_row {
+&#10;#ltgvfwboig .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_first_summary_row.thick {
+&#10;#ltgvfwboig .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#kxhulyvrig .gt_last_summary_row {
+&#10;#ltgvfwboig .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3485,7 +1110,7 @@ oecd.cvrg |>
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_grand_summary_row {
+&#10;#ltgvfwboig .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3494,7 +1119,7 @@ oecd.cvrg |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#kxhulyvrig .gt_first_grand_summary_row {
+&#10;#ltgvfwboig .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3503,7 +1128,7 @@ oecd.cvrg |>
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_last_grand_summary_row_top {
+&#10;#ltgvfwboig .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3512,10 +1137,10 @@ oecd.cvrg |>
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_striped {
+&#10;#ltgvfwboig .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#kxhulyvrig .gt_table_body {
+&#10;#ltgvfwboig .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3523,7 +1148,7 @@ oecd.cvrg |>
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_footnotes {
+&#10;#ltgvfwboig .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3536,7 +1161,7 @@ oecd.cvrg |>
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_footnote {
+&#10;#ltgvfwboig .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3544,7 +1169,7 @@ oecd.cvrg |>
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#kxhulyvrig .gt_sourcenotes {
+&#10;#ltgvfwboig .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3557,57 +1182,57 @@ oecd.cvrg |>
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#kxhulyvrig .gt_sourcenote {
+&#10;#ltgvfwboig .gt_sourcenote {
   font-size: 70%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#kxhulyvrig .gt_left {
+&#10;#ltgvfwboig .gt_left {
   text-align: left;
 }
-&#10;#kxhulyvrig .gt_center {
+&#10;#ltgvfwboig .gt_center {
   text-align: center;
 }
-&#10;#kxhulyvrig .gt_right {
+&#10;#ltgvfwboig .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#kxhulyvrig .gt_font_normal {
+&#10;#ltgvfwboig .gt_font_normal {
   font-weight: normal;
 }
-&#10;#kxhulyvrig .gt_font_bold {
+&#10;#ltgvfwboig .gt_font_bold {
   font-weight: bold;
 }
-&#10;#kxhulyvrig .gt_font_italic {
+&#10;#ltgvfwboig .gt_font_italic {
   font-style: italic;
 }
-&#10;#kxhulyvrig .gt_super {
+&#10;#ltgvfwboig .gt_super {
   font-size: 65%;
 }
-&#10;#kxhulyvrig .gt_footnote_marks {
+&#10;#ltgvfwboig .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#kxhulyvrig .gt_asterisk {
+&#10;#ltgvfwboig .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#kxhulyvrig .gt_indent_1 {
+&#10;#ltgvfwboig .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#kxhulyvrig .gt_indent_2 {
+&#10;#ltgvfwboig .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#kxhulyvrig .gt_indent_3 {
+&#10;#ltgvfwboig .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#kxhulyvrig .gt_indent_4 {
+&#10;#ltgvfwboig .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#kxhulyvrig .gt_indent_5 {
+&#10;#ltgvfwboig .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

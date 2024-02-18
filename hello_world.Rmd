@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: github_document
 ---
 
-```{r setup}
+```{r setup, include = FALSE, cache = FALSE}
 knitr::opts_chunk$set( message=FALSE, warning=FALSE )
 options(scipen=999) # "Desliga" notação científica. Para "ligar" use scipen=0
 
@@ -96,16 +96,7 @@ unique(collect(oecd.hlth.exp)$price.base)
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(unit_measure, unit.of.measure)) |> 
   arrange(unit_measure) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
 
@@ -114,16 +105,7 @@ oecd.hlth.exp |>
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(financing_scheme, financing.scheme)) |> 
   arrange(financing_scheme) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
 
@@ -133,16 +115,7 @@ oecd.hlth.exp |>
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(health_function, health.function)) |> 
   arrange(health_function) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
 
@@ -152,16 +125,7 @@ oecd.hlth.exp |>
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(mode_provision, mode.of.provision)) |> 
   arrange(mode_provision) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
 
@@ -169,16 +133,7 @@ oecd.hlth.exp |>
 oecd.hlth.exp |> 
   summarise(n=n(), .by=c(provider, health.care.provider)) |> 
   arrange(provider) |> 
-  collect() |> 
-  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
-  fmt_integer(n) |> 
-  tab_options(
-    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
-    column_labels.font.weight="bold", column_labels.font.size=pct(80),
-    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
-    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
-    table.font.size=pct(90), source_notes.font.size = pct(70)
-  )
+  collect()
 ```
 
 
