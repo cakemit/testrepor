@@ -60,16 +60,16 @@ oecd.hlth.exp <- open_dataset("_datasets/OECD_HEALTH_EXP/") |>
             OBS_STATUS, OBS_STATUS2, OBS_STATUS3, Observation.status.3,
             UNIT_MULT,
             FREQ, Frequency.of.observation)) |>
-  rename(iso3c=REF_AREA, country=Reference.area, ano=TIME_PERIOD,
+  rename(iso3c=REF_AREA, country=Reference.area, year=TIME_PERIOD,
          health_function=7) |>
-  mutate(ano = as.integer(ano)) |>
+  mutate(year = as.integer(year)) |>
   rename_with(tolower)
 ```
 
 
 <br>
 
-Inspect
+### Inspect
 
 ```{r}
 glimpse(oecd.hlth.exp)
@@ -143,14 +143,14 @@ oecd.hlth.exp |>
 ### Summarize
 
 
-```{r plt_exp1, fig.width=6, fig.asp=.6}
+```{r plt_exp1, echo=FALSE, fig.width=6, fig.asp=.6}
 oecd.hlth.exp |> 
   filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
          unit_measure=="USD_PPP", price.base=="Constant prices") |>
   select(-c(unit_measure, unit.of.measure, price.base)) |> 
-  select(ano, country, obs_value) |> collect() |> 
-  summarise(value = sum(obs_value), .by=ano) |> 
-  ggplot(aes(x=ano, y=value, group=1)) +
+  select(year, country, obs_value) |> collect() |> 
+  summarise(value = sum(obs_value), .by=year) |> 
+  ggplot(aes(x=year, y=value, group=1)) +
   geom_line(color="blue") + geom_point(color="blue") +
   scale_y_continuous(labels=scales::label_number(scale=1/1000), limits=c(0,NA)) +
   labs(
@@ -163,14 +163,14 @@ oecd.hlth.exp |>
 
 <br>
 
-```{r plt_exp_count, fig.width=6, fig.asp=.6}
+```{r plt_exp_count, echo=FALSE, fig.width=6, fig.asp=.6}
 oecd.hlth.exp |> 
   filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
          unit_measure=="USD_PPP", price.base=="Constant prices") |>
   select(-c(unit_measure, unit.of.measure, price.base)) |> 
-  select(ano, country, obs_value) |> collect() |> 
-  summarise(value = n_distinct(country), .by=ano) |> 
-  ggplot(aes(x=ano, y=value, group=1)) +
+  select(year, country, obs_value) |> collect() |> 
+  summarise(value = n_distinct(country), .by=year) |> 
+  ggplot(aes(x=year, y=value, group=1)) +
   geom_line(color="blue") + geom_point(color="blue") +
   scale_y_continuous(labels=scales::label_number()) +
   labs(
@@ -182,13 +182,13 @@ oecd.hlth.exp |>
 
 <br>
 
-**Health Expenditure by Financing Scheme, 2022**
+**Health Expenditure by Financing Scheme, 2022**    
 *USD Millions PPP converted at constant prices*
 
 
-```{r}
+```{r echo=FALSE}
 oecd.hlth.exp |> 
-  filter(ano == 2022, 
+  filter(year == 2022, 
          financing_scheme!="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
          unit_measure=="USD_PPP", price.base=="Constant prices") |> 
   summarise(
@@ -202,6 +202,12 @@ oecd.hlth.exp |>
 
 
 *Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris.*
+
+<br>
+
+Create a dataset with total health expenditure, percent of GDP and health spend per capita per country and year.
+
+Create a dataset with financing schemes detailed by country and year.
 
 <br>
 
@@ -220,15 +226,15 @@ oecd.cvrg <- read_csv("_datasets/OECD.HI_coverage.csv", name_repair="universal")
             OBS_STATUS,
             UNIT_MULT, Unit.multiplier,
             Decimals, DECIMALS)) |>
-  rename(iso3c=REF_AREA, country=Reference.area, ano=TIME_PERIOD) |>
-  mutate(ano = as.integer(ano)) |>
+  rename(iso3c=REF_AREA, country=Reference.area, year=TIME_PERIOD) |>
+  mutate(year = as.integer(year)) |>
   rename_with(tolower)
 ```
 
 
 <br>
 
-Inspect
+### Inspect
 
 ```{r}
 glimpse(oecd.cvrg)
@@ -237,7 +243,7 @@ glimpse(oecd.cvrg)
 
 
 ```{r}
-range(oecd.cvrg$ano)
+range(oecd.cvrg$year)
 ```
 
 
@@ -250,12 +256,12 @@ oecd.cvrg |> summarise(n=n(), .by=c(insurance.type))
 
 ### Summarize
 
-**Mean health coverage 2022**
+**Mean health coverage, 2022**      
 *as percent of population*
 
-```{r}
+```{r echo=FALSE}
 oecd.cvrg |> 
-  filter(ano == 2022) |> 
+  filter(year == 2022) |> 
   summarise(
     countries = n_distinct(iso3c),
     pct = mean(obs_value),

@@ -37,15 +37,15 @@ oecd.hlth.exp <- open_dataset("_datasets/OECD_HEALTH_EXP/") |>
             OBS_STATUS, OBS_STATUS2, OBS_STATUS3, Observation.status.3,
             UNIT_MULT,
             FREQ, Frequency.of.observation)) |>
-  rename(iso3c=REF_AREA, country=Reference.area, ano=TIME_PERIOD,
+  rename(iso3c=REF_AREA, country=Reference.area, year=TIME_PERIOD,
          health_function=7) |>
-  mutate(ano = as.integer(ano)) |>
+  mutate(year = as.integer(year)) |>
   rename_with(tolower)
 ```
 
 <br>
 
-Inspect
+### Inspect
 
 ``` r
 glimpse(oecd.hlth.exp)
@@ -72,7 +72,7 @@ glimpse(oecd.hlth.exp)
     ## $ observation.status   <string> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
     ## $ observation.status.2 <string> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
     ## $ unit.multiplier      <string> "Units", "Units", "Units", "Millions", "Units", …
-    ## $ ano                   <int32> 1971, 1971, 1971, 1971, 1971, 1971, 1971, 1971, …
+    ## $ year                  <int32> 1971, 1971, 1971, 1971, 1971, 1971, 1971, 1971, …
     ## Call `print()` for query details
 
 <br>
@@ -208,44 +208,9 @@ oecd.hlth.exp |>
 
 ### Summarize
 
-``` r
-oecd.hlth.exp |> 
-  filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
-         unit_measure=="USD_PPP", price.base=="Constant prices") |>
-  select(-c(unit_measure, unit.of.measure, price.base)) |> 
-  select(ano, country, obs_value) |> collect() |> 
-  summarise(value = sum(obs_value), .by=ano) |> 
-  ggplot(aes(x=ano, y=value, group=1)) +
-  geom_line(color="blue") + geom_point(color="blue") +
-  scale_y_continuous(labels=scales::label_number(scale=1/1000), limits=c(0,NA)) +
-  labs(
-    x=NULL, y=NULL,
-    title="Total Health Expenditure, USD billions",
-    subtitle="PPP converted at constant prices",
-    caption="Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris."
-  )
-```
-
 ![](hello_world_files/figure-gfm/plt_exp1-1.png)<!-- -->
 
 <br>
-
-``` r
-oecd.hlth.exp |> 
-  filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
-         unit_measure=="USD_PPP", price.base=="Constant prices") |>
-  select(-c(unit_measure, unit.of.measure, price.base)) |> 
-  select(ano, country, obs_value) |> collect() |> 
-  summarise(value = n_distinct(country), .by=ano) |> 
-  ggplot(aes(x=ano, y=value, group=1)) +
-  geom_line(color="blue") + geom_point(color="blue") +
-  scale_y_continuous(labels=scales::label_number()) +
-  labs(
-    x=NULL, y=NULL,
-    title="Number of countries",
-    caption="Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris."
-  )
-```
 
 ![](hello_world_files/figure-gfm/plt_exp_count-1.png)<!-- -->
 
@@ -253,20 +218,6 @@ oecd.hlth.exp |>
 
 **Health Expenditure by Financing Scheme, 2022** *USD Millions PPP
 converted at constant prices*
-
-``` r
-oecd.hlth.exp |> 
-  filter(ano == 2022, 
-         financing_scheme!="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
-         unit_measure=="USD_PPP", price.base=="Constant prices") |> 
-  summarise(
-    countries = n_distinct(iso3c),
-    health_usd = sum(obs_value),
-    .by=c(financing.scheme)) |> 
-  collect() |> 
-  mutate(pct = round(health_usd/sum(health_usd)*100, 1)) |> 
-  arrange(desc(health_usd))
-```
 
     ## # A tibble: 14 × 4
     ##    financing.scheme                                   countries health_usd   pct
@@ -291,6 +242,13 @@ oecd.hlth.exp |>
 
 <br>
 
+Create a dataset with total health expenditure, percent of GDP and
+health spend per capita per country and year.
+
+Create a dataset with financing schemes detailed by country and year.
+
+<br>
+
 ## Coverage
 
 ``` r
@@ -306,14 +264,14 @@ oecd.cvrg <- read_csv("_datasets/OECD.HI_coverage.csv", name_repair="universal")
             OBS_STATUS,
             UNIT_MULT, Unit.multiplier,
             Decimals, DECIMALS)) |>
-  rename(iso3c=REF_AREA, country=Reference.area, ano=TIME_PERIOD) |>
-  mutate(ano = as.integer(ano)) |>
+  rename(iso3c=REF_AREA, country=Reference.area, year=TIME_PERIOD) |>
+  mutate(year = as.integer(year)) |>
   rename_with(tolower)
 ```
 
 <br>
 
-Inspect
+### Inspect
 
 ``` r
 glimpse(oecd.cvrg)
@@ -324,12 +282,12 @@ glimpse(oecd.cvrg)
     ## $ iso3c              <chr> "NLD", "NLD", "NLD", "NLD", "NLD", "NLD", "NLD", "N…
     ## $ country            <chr> "Netherlands", "Netherlands", "Netherlands", "Nethe…
     ## $ insurance.type     <chr> "Public and primary voluntary health insurance", "P…
-    ## $ ano                <int> 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 196…
+    ## $ year               <int> 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 196…
     ## $ obs_value          <dbl> 71.0, 71.0, 71.0, 71.0, 71.0, 71.0, 69.9, 69.6, 69.…
     ## $ observation.status <chr> "Normal value", "Normal value", "Normal value", "No…
 
 ``` r
-range(oecd.cvrg$ano)
+range(oecd.cvrg$year)
 ```
 
     ## [1] 1960 2022
@@ -354,16 +312,6 @@ oecd.cvrg |> summarise(n=n(), .by=c(insurance.type))
 ### Summarize
 
 **Mean health coverage 2022** *as percent of population*
-
-``` r
-oecd.cvrg |> 
-  filter(ano == 2022) |> 
-  summarise(
-    countries = n_distinct(iso3c),
-    pct = mean(obs_value),
-    .by=c(insurance.type)) |> 
-  arrange(desc(pct))
-```
 
     ## # A tibble: 7 × 3
     ##   insurance.type                                countries   pct
