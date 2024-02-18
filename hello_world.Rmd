@@ -305,11 +305,10 @@ Summarize
 
 ```{r}
 oecd.cvrg |> 
-  filter(ano == 2022, 
-         unit_measure=="USD_PPP", price.base=="Constant prices") |> 
+  filter(ano == 2022) |> 
   summarise(
     countries = n_distinct(iso3c),
-    pct = sum(obs_value),
+    pct = mean(obs_value),
     .by=c(insurance.type)) |> 
   arrange(desc(pct)) |> 
   gt(rowname_col=1, locale="pt") |> sub_missing() |>
@@ -324,6 +323,7 @@ oecd.cvrg |>
   ) |> 
   tab_header(title=md("**Health Coverage by Insurance Type, 2022**"),
              subtitle="Percentage of population") |> 
-  tab_source_note("Source: OECD Health Statistics Database.")
+  tab_source_note("Source: OECD, OECD Health Statistics 2023. July 2023.")
 ```
 
+Must add population data to get weighted average of coverage by insurance type.
