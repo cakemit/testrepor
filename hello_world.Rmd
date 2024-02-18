@@ -5,26 +5,325 @@ date: "`r Sys.Date()`"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup}
+knitr::opts_chunk$set( message=FALSE, warning=FALSE )
+options(scipen=999) # "Desliga" notação científica. Para "ligar" use scipen=0
+
+
+library(tidyverse) # para trabalhar com tabelas
+library(arrow)
+library(gt)
+
+theme_set(theme_light())
+theme_update(
+  panel.grid.minor = element_blank(),
+  plot.title = element_text(size = 12, colour = "gray30", face = "bold"),
+  plot.subtitle = element_text(face = 'italic', colour = "gray50", size = 10),
+  plot.caption = element_text(colour = "gray50", hjust=0, size = 8),
+  legend.title = element_blank(),
+)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+<br>
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# Health expenditure
 
-```{r cars}
-summary(cars)
+Data downloaded from [OECD Data Explorer](https://data-explorer.oecd.org/)
+
+Read .csv and write to .parquet 
+
+```{r}
+# # DATAFLOW  OECD.ELS.HD:DSD_SHA@DF_SHA(1.0)
+# # Health expenditure and financing
+# df.health_exp <- read_csv("_datasets/OECD.ELS.HD,DSD_SHA@DF_SHA,1.0+all.csv",name_repair="universal")
+#
+# df.health_exp |>
+#   group_by(TIME_PERIOD) |>
+#   arrow::write_dataset("_datasets/OECD_HEALTH_EXP/")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+<br>
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+Read from .parquet
+
+
+```{r}
+oecd.hlth.exp <- open_dataset("_datasets/OECD_HEALTH_EXP/") |>
+  select(-c(STRUCTURE, STRUCTURE_ID, STRUCTURE_NAME, ACTION,
+            Measure, MEASURE, Currency, Decimals, DECIMALS,
+            FINANCING_SCHEME_REV, Revenues.of.financing.schemes,
+            FACTOR_PROVISION, Factor.of.provision, Observation.value, Base.period,
+            Asset.type, ASSET_TYPE, PRICE_BASE,
+            Time.period,
+            OBS_STATUS, OBS_STATUS2, OBS_STATUS3, Observation.status.3,
+            UNIT_MULT,
+            FREQ, Frequency.of.observation)) |>
+  rename(iso3c=REF_AREA, country=Reference.area, ano=TIME_PERIOD,
+         health_function=7) |>
+  mutate(ano = as.integer(ano)) |>
+  rename_with(tolower)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+<br>
+
+Inspect
+
+```{r}
+glimpse(oecd.hlth.exp)
+```
+
+
+<br>
+
+```{r}
+colSums(is.na(collect(oecd.hlth.exp))) |> as.data.frame() |> rownames_to_column() |> 
+  rename(coluna=1,nulos=2) |> 
+  filter(nulos>0) |> arrange(desc(nulos))
+```
+
+
+
+```{r}
+unique(collect(oecd.hlth.exp)$price.base)
+```
+
+
+
+```{r}
+oecd.hlth.exp |> 
+  summarise(n=n(), .by=c(unit_measure, unit.of.measure)) |> 
+  arrange(unit_measure) |> 
+  collect() |> 
+  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
+  fmt_integer(n) |> 
+  tab_options(
+    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
+    column_labels.font.weight="bold", column_labels.font.size=pct(80),
+    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
+    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
+    table.font.size=pct(90), source_notes.font.size = pct(70)
+  )
+```
+
+
+
+```{r}
+oecd.hlth.exp |> 
+  summarise(n=n(), .by=c(financing_scheme, financing.scheme)) |> 
+  arrange(financing_scheme) |> 
+  collect() |> 
+  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
+  fmt_integer(n) |> 
+  tab_options(
+    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
+    column_labels.font.weight="bold", column_labels.font.size=pct(80),
+    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
+    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
+    table.font.size=pct(90), source_notes.font.size = pct(70)
+  )
+```
+
+
+
+
+```{r}
+oecd.hlth.exp |> 
+  summarise(n=n(), .by=c(health_function, health.function)) |> 
+  arrange(health_function) |> 
+  collect() |> 
+  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
+  fmt_integer(n) |> 
+  tab_options(
+    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
+    column_labels.font.weight="bold", column_labels.font.size=pct(80),
+    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
+    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
+    table.font.size=pct(90), source_notes.font.size = pct(70)
+  )
+```
+
+
+
+
+```{r}
+oecd.hlth.exp |> 
+  summarise(n=n(), .by=c(mode_provision, mode.of.provision)) |> 
+  arrange(mode_provision) |> 
+  collect() |> 
+  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
+  fmt_integer(n) |> 
+  tab_options(
+    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
+    column_labels.font.weight="bold", column_labels.font.size=pct(80),
+    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
+    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
+    table.font.size=pct(90), source_notes.font.size = pct(70)
+  )
+```
+
+
+```{r}
+oecd.hlth.exp |> 
+  summarise(n=n(), .by=c(provider, health.care.provider)) |> 
+  arrange(provider) |> 
+  collect() |> 
+  gt(rowname_col="stub", locale="pt") |> sub_missing() |>
+  fmt_integer(n) |> 
+  tab_options(
+    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
+    column_labels.font.weight="bold", column_labels.font.size=pct(80),
+    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
+    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
+    table.font.size=pct(90), source_notes.font.size = pct(70)
+  )
+```
+
+
+
+<br>
+
+Summarize
+
+
+```{r}
+oecd.hlth.exp |> 
+  filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
+         unit_measure=="USD_PPP", price.base=="Constant prices") |>
+  select(-c(unit_measure, unit.of.measure, price.base)) |> 
+  select(ano, country, obs_value) |> collect() |> 
+  summarise(value = sum(obs_value), .by=ano) |> 
+  ggplot(aes(x=ano, y=value, group=1)) +
+  geom_line(color="blue") + geom_point(color="blue") +
+  scale_y_continuous(labels=scales::label_number(scale=1/1000), limits=c(0,NA)) +
+  labs(
+    x=NULL, y=NULL,
+    title="Total Health Expenditure, USD billions",
+    subtitle="PPP converted at constant prices",
+    caption="Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris."
+  )
+```
+
+<br>
+
+```{r}
+oecd.hlth.exp |> 
+  filter(financing_scheme=="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
+         unit_measure=="USD_PPP", price.base=="Constant prices") |>
+  select(-c(unit_measure, unit.of.measure, price.base)) |> 
+  select(ano, country, obs_value) |> collect() |> 
+  summarise(value = n_distinct(country), .by=ano) |> 
+  ggplot(aes(x=ano, y=value, group=1)) +
+  geom_line(color="blue") + geom_point(color="blue") +
+  scale_y_continuous(labels=scales::label_number()) +
+  labs(
+    x=NULL, y=NULL,
+    title="Number of countries",
+    caption="Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris."
+  )
+```
+
+
+
+
+```{r}
+oecd.hlth.exp |> 
+  filter(ano == 2022, 
+         financing_scheme!="_T", mode_provision=="_T", health_function=="_T", provider=="_T",
+         unit_measure=="USD_PPP", price.base=="Constant prices") |> 
+  summarise(
+    countries = n_distinct(iso3c),
+    health_usd = sum(obs_value),
+    .by=c(financing.scheme)) |> 
+  collect() |> 
+  mutate(pct = health_usd/sum(health_usd)) |> 
+  arrange(desc(health_usd)) |> 
+  gt(rowname_col=1, locale="pt") |> sub_missing() |>
+  fmt_integer(c(countries,health_usd)) |> fmt_percent(pct, decimals=1) |> 
+  gtExtras::gt_plt_bar(health_usd, keep_column=T) |> 
+  tab_options(
+    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
+    column_labels.font.weight="bold", column_labels.font.size=pct(80),
+    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
+    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
+    grand_summary_row.padding=px(2), grand_summary_row.background.color="gray95",
+    table.font.size=pct(90), source_notes.font.size = pct(70)
+  ) |> 
+  tab_header(title=md("**Health Expenditure by Financing Scheme, 2022**"),
+             subtitle="USD Millions PPP converted at constant prices") |> 
+  tab_source_note("Source: OECD.Stat, National Accounts - Main aggregates. Extracted June 2023, Paris.")
+```
+
+
+
+# Coverage
+
+```{r}
+# DATAFLOW  OECD.ELS.HD:DSD_HEALTH_PROT@DF_HEALTH_PROT(1.0)
+# Social protection
+# HIC - Health insurance coverage
+oecd.cvrg <- read_csv("_datasets/OECD.HI_coverage.csv", name_repair="universal") |>
+  select(-c(STRUCTURE, STRUCTURE_ID, STRUCTURE_NAME, ACTION,
+            FREQ, Frequency.of.observation,
+            Measure, MEASURE, UNIT_MEASURE, Unit.of.measure,
+            INSURANCE_TYPE,
+            Time.period, Observation.value,
+            OBS_STATUS,
+            UNIT_MULT, Unit.multiplier,
+            Decimals, DECIMALS)) |>
+  rename(iso3c=REF_AREA, country=Reference.area, ano=TIME_PERIOD) |>
+  mutate(ano = as.integer(ano)) |>
+  rename_with(tolower)
+```
+
+
+<br>
+
+Inspect
+
+```{r}
+glimpse(oecd.cvrg)
+```
+
+
+
+```{r}
+range(oecd.cvrg$ano)
+```
+
+
+
+```{r}
+oecd.cvrg |> summarise(n=n(), .by=c(insurance.type))
+```
+
+<br>
+
+Summarize
+
+```{r}
+oecd.cvrg |> 
+  filter(ano == 2022, 
+         unit_measure=="USD_PPP", price.base=="Constant prices") |> 
+  summarise(
+    countries = n_distinct(iso3c),
+    pct = sum(obs_value),
+    .by=c(insurance.type)) |> 
+  arrange(desc(pct)) |> 
+  gt(rowname_col=1, locale="pt") |> sub_missing() |>
+  fmt_integer(c(countries)) |> fmt_number(pct, decimals=1) |> 
+  gtExtras::gt_plt_bar(pct, keep_column=T) |> 
+  tab_options(
+    heading.align="left", heading.title.font.size=pct(110), heading.subtitle.font.size=pct(90),
+    column_labels.font.weight="bold", column_labels.font.size=pct(80),
+    column_labels.text_transform="uppercase", column_labels.background.color="gray95",
+    data_row.padding=px(2), row_group.padding=px(2), row_group.font.weight="bold",
+    table.font.size=pct(90), source_notes.font.size = pct(70)
+  ) |> 
+  tab_header(title=md("**Health Coverage by Insurance Type, 2022**"),
+             subtitle="Percentage of population") |> 
+  tab_source_note("Source: OECD Health Statistics Database.")
+```
+
