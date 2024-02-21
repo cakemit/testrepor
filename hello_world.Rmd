@@ -27,7 +27,255 @@ theme_update(
 
 <br>
 
+## Auxiliary Tables
+
+```{r}
+# Tabela auxiliar de códigos e classificações de países
+ta.countries <- wbstats::wb_countries() |> 
+  select(iso3c, country, region, income_level)
+```
+
+
+```{r}
+ta.who <- readxl::read_excel("_datasets/GHED_data.XLSX", sheet=2,.name_repair="universal") |> 
+  select(code=variable.code, name=variable.name, unit, currency) |> 
+  separate(code, into=c("code","extras"), sep="_") |> 
+  filter(is.na(extras))
+```
+
+
+
+```{r}
+ta.who.raw <- readxl::read_excel("_datasets/GHED_data.XLSX", sheet=1) |> 
+  filter(year != 2022)
+```
+
+
+<br>
+
 ## Health expenditure
+
+<br>
+
+Data downloaded from [WHO Global Health Expenditure Update 2023](https://apps.who.int/nha/database)
+
+Last updated: December 3rd, 2023
+
+Note: Year 2021 added. Data for 2022 are preliminary and subject to revision. 
+
+
+
+```{r}
+who.tt <- ta.who.raw |> 
+  select(
+    iso3c=code, income, year, 
+    che_gdp,        # Current Health Expenditure (CHE) as % Gross Domestic Product (GDP)
+    pop,            # Population (in thousands)
+    # Amounts in constant (2021) US$ per capita:
+    che_usd2021,    # Current Health Expenditure (CHE)
+    gdp_usd2021_pc, # Gross Domestic Product (GDP)
+    gge_usd2021_pc  # General government expenditure (GGE), 
+  ) |> 
+  mutate(gdp_usd2021 = pop*gdp_usd2021_pc,
+         gge_usd2021 = pop*gge_usd2021_pc) |> 
+  inner_join(ta.countries, join_by(iso3c))
+```
+
+<br>
+
+Inspect
+
+```{r}
+colSums(is.na(who.tt)) |> as.data.frame() |> rownames_to_column() |> rename(coluna=1,nulos=2) |> 
+  filter(nulos>0) |> arrange(desc(nulos))
+```
+
+<br>
+
+```{r}
+who.tt |> filter(is.na(che_usd2021)) |> 
+  summarise(n=n(), .by=c(iso3c, country, region)) |> 
+  arrange(desc(n))
+```
+
+<br>
+
+
+```{r}
+who.tt |> filter(is.na(pop)) |> 
+  summarise(n=n(), .by=c(iso3c, country, region)) |> 
+  arrange(desc(n))
+```
+
+
+<br>
+
+```{r}
+who.tt <- who.tt |> na.omit()
+```
+
+
+<br>
+
+```{r}
+range(who.tt$year) 
+```
+
+
+<br>
+
+```{r}
+who.tt |> filter(year > max(year)-5) |> 
+  summarise(
+    across(c(gdp_usd2021, gge_usd2021, che_usd2021), ~round(sum(.x, na.rm=T)/1e+6,1)), 
+    pop = round(sum(pop, na.rm=T),0),
+    n.countries = n(),
+    .by=year
+  ) |> 
+  arrange(year)
+```
+
+
+<br>
+
+**Sources**   
+
+
+```{r}
+who.sources <- ta.who.raw |> 
+  select(
+    iso3c=code, income, year, 
+    gghed_usd2021,  # Domestic General Government (GGHE-D)
+    pvtd_usd2021,   # Domestic Private (PVT-D)
+    ext_usd2021,    # External (EXT)
+  ) |> 
+  inner_join(ta.countries, join_by(iso3c)) |> 
+  pivot_longer(gghed_usd2021:ext_usd2021, names_to="source", values_drop_na=T) |> 
+  filter(value > 0) |> 
+  mutate(source = str_split_i(source, "_", 1)) |> 
+  left_join(ta.who |> select(code, name), join_by(source==code))
+```
+
+
+<br>
+
+Inspect
+
+```{r}
+colSums(is.na(who.sources)) |> as.data.frame() |> rownames_to_column() |> rename(coluna=1,nulos=2) |> 
+  filter(nulos>0) |> arrange(desc(nulos))
+```
+
+<br>
+
+Summarize
+
+
+```{r}
+who.sources |> filter(year==max(year)) |> 
+  summarise(n.countries = n(),
+            value = round(sum(value, na.rm=T),0), 
+            .by=c(year, name)) |> 
+  mutate(tt = sum(value))
+```
+
+<br>
+
+
+```{r}
+who.sources |> filter(year > max(year)-5) |> 
+  summarise(n.countries = n_distinct(iso3c),
+            value = round(sum(value, na.rm=T)), 
+            .by=c(year)) |> 
+  arrange(year)
+```
+
+
+
+<br>
+
+## Financing schemes:
+
+Current health expenditure by financing schemes
+
+
+```{r}
+who.schemes <- ta.who.raw |> 
+  select(
+    iso3c=code, income, year, 
+    hf1_usd2021,  # Government schemes and compulsory contributory health care financing schemes
+    hf2_usd2021,  # Voluntary health care payment schemes
+    hf3_usd2021,  # Household out-of-pocket payments (OOPS)
+    hf4_usd2021,  # Rest of the world financing schemes (non-resident)
+    hfnec_usd2021 # Unspecified financing schemes (n.e.c.)
+  ) |> 
+  inner_join(ta.countries, join_by(iso3c)) |>  
+  pivot_longer(hf1_usd2021:hfnec_usd2021, names_to="scheme", values_drop_na=T) |>
+  filter(value > 0) |>
+  mutate(scheme = str_split_i(scheme, "_", 1)) |> 
+  left_join(ta.who |> select(code, name), join_by(scheme==code))
+```
+
+
+<br>
+
+Inspect
+
+```{r}
+colSums(is.na(who.schemes)) |> as.data.frame() |> rownames_to_column() |> rename(coluna=1,nulos=2) |> 
+  filter(nulos>0) |> arrange(desc(nulos))
+```
+
+<br>
+
+Summarize
+
+```{r}
+who.schemes |> filter(year==max(year)) |> 
+  summarise(n.countries = n(),
+            value = round(sum(value, na.rm=T),0), 
+            .by=c(year, scheme)) |> 
+  mutate(tt = sum(value))
+```
+
+<br>
+
+
+```{r}
+who.schemes |> filter(year > max(year)-5) |> 
+  summarise(n.countries = n_distinct(iso3c),
+            tt = round(sum(value, na.rm=T)), 
+            .by=c(year)) |> 
+  arrange(year)
+```
+
+<br>
+
+**Government schemes and compulsory contributory health care:**
+hf11_usd2021	  Government schemes
+hf12_usd2021	  Compulsory contributory health insurance schemes
+hf13_usd2021	  Compulsory Medical Saving Accounts (CMSA)
+hf1nec_usd2021	Unspecified government schemes and compulsory contributory schemes (n.e.c.)
+
+
+**Compulsory contributory health insurance schemes**
+hf121_usd2021	  Social health insurance schemes
+hf122_usd2021	  Compulsory private insurance schemes
+hf12nec_usd2021	Unspecified compulsory contributory health insurance schemes (n.e.c.)
+
+
+**Voluntary health care payment schemes**
+hf21_usd2021	  Voluntary health insurance schemes
+hf22_usd2021	  NPISH financing schemes (including development agencies)
+hf23_usd2021	  Enterprise financing schemes
+hf2nec_usd2021	Unspecified voluntary health care payment schemes (n.e.c.)
+
+
+
+
+
+<br>
+
 
 Data downloaded from [OECD Data Explorer](https://data-explorer.oecd.org/)
 
@@ -193,7 +441,7 @@ oecd.hlth.exp |>
          unit_measure=="USD_PPP", price.base=="Constant prices") |> 
   summarise(
     countries = n_distinct(iso3c),
-    health_usd = sum(obs_value),
+    health_usd = round(sum(obs_value)),
     .by=c(financing.scheme)) |> 
   collect() |> 
   mutate(pct = round(health_usd/sum(health_usd)*100, 1)) |> 
@@ -264,7 +512,7 @@ oecd.cvrg |>
   filter(year == 2022) |> 
   summarise(
     countries = n_distinct(iso3c),
-    pct = mean(obs_value),
+    pct = round(mean(obs_value),1),
     .by=c(insurance.type)) |> 
   arrange(desc(pct))
 ```
